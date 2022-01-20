@@ -1,18 +1,21 @@
 import React from "react";
-import { useState, useReducer } from "react";
+import { useState, useContext } from "react";
+import { searchUsers } from "../components/layout/context/github/GithubActions";
+import GithubContext from "../components/layout/context/GithubProvider";
 
 const UserSearch = () => {
   const [searchText, setSearchText] = useState("");
-  const [state, dispatch] = useReducer();
 
-  const { users } = state;
+  const { users, dispatch } = useContext(GithubContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (searchText === "") {
       alert("Please enter something");
     } else {
-      // @todo - search users
+      dispatch({ type: "SET_LOADING" });
+      const users = await searchUsers(searchText);
+      dispatch({ type: "GET_USERS", payload: users });
       setSearchText("");
     }
   };
