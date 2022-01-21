@@ -22,11 +22,6 @@ export const searchUsers = async (text) => {
   return response.data.items;
 };
 
-export const getUserList = async () => {
-  const response = await github.get(`${GITHUB_URL}/users`);
-  return response.data;
-};
-
 // Get user and repos
 export const getUserAndRepos = async (login) => {
   const [user, repos] = await Promise.all([
